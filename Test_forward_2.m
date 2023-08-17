@@ -1,4 +1,5 @@
-% This runs the forward solver for given values, and plots the associated depth dose curves.
+% This runs the forward solver for given incident energy beam, and plots
+% the associated depth dose curves for varying width.
 
 % Define coefficients
 N = 50;
@@ -20,7 +21,7 @@ else
     mid = (N-1)/2:(N+3)/2;
     BC(1,mid,mid,sum(abs(s_vec),2)==1, round(En/2)) = 1;
 end
-Domain_width_vec = 10.^(linspace(-2,2,50)); % Measured in metres
+Domain_width_vec = 10.^(linspace(-2,2,50)); % Measured in metres^-1
 
 % Define absorpsion & scattering tensor
 [sigma_a] = Function_sigma_a_dist(Inclusion);

@@ -1,4 +1,4 @@
-function [u,uerror] = LB_primal(Gamma_mnus, S, sigma_s, sigma_a, s_vec, BC, n_iter, min_error)
+function [u,uerror] = LB_primal(Gamma_mnus, S, sigma_s, sigma_a, s_vec, BC, n_iter)
 %% This code computes a numerical solution to the Boltzmann-CSD equation.
 %##########################################################################
 % Inputs
@@ -31,7 +31,7 @@ u = u./sum(Function_Dose_Calculation(u),"all");
 % Termination criteria
 count = 0; uerror = zeros(n_iter+1,1); uerror(1) = inf;
 
-while count < n_iter %&& uerror(count+1) > min_error
+while count < n_iter
     % Update termination criteria
     count = count +1;   uold = u;
 

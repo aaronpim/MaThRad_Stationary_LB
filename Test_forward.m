@@ -1,4 +1,5 @@
-% This runs the forward solver for given values, and plots the associated depth dose curves.
+% This runs the forward solver for given domain width, and plots the 
+% associated depth dose curves, for each energy level of incident beam.
 
 % Define coefficients
 N = 50;
