@@ -1,4 +1,4 @@
-function [u,uerror] = LB_primal(Gamma_mnus, S, sigma_s, sigma_a, s_vec, BC, n_iter,min_error)
+function [u,uerror] = LB_dual(Gamma_plus, S, sigma_s, sigma_a, s_vec, data, n_iter)
 %% This code computes a numerical solution to the Boltzmann-CSD equation.
 %##########################################################################
 % Inputs
@@ -21,17 +21,17 @@ function [u,uerror] = LB_primal(Gamma_mnus, S, sigma_s, sigma_a, s_vec, BC, n_it
 %               between each iteration.
 %##########################################################################
 %% Preallocation functions
-u = zeros(size(Gamma_mnus));
+u = zeros(size(Gamma_plus));
 L2 = @(V)   sqrt(sum(V.^2,"all"));   % L2 norm
     
 % Apply the inflow BC's and normalise
-u(Gamma_mnus) = BC(Gamma_mnus); 
+u(Gamma_plus) = BC(Gamma_plus); 
 u = u./sum(Function_Dose_Calculation(u),"all");
 
 % Termination criteria
 count = 0; uerror = zeros(n_iter+1,1); uerror(1) = inf;
 
-while count < n_iter && uerror(count) > min_error
+while count < n_iter
     % Update termination criteria
     count = count +1;   uold = u;
 
@@ -42,7 +42,7 @@ while count < n_iter && uerror(count) > min_error
     [u] = Streaming(u, Scatter_Ten, s_vec);
     
     % Enforce the boundary conditions
-    u(Gamma_mnus) = BC(Gamma_mnus);  
+    u(Gamma_plus) = BC(Gamma_plus);  
 
     % Remove any points of negative flux.
     u(u<0)=0;

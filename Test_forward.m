@@ -31,7 +31,7 @@ for i = 1:En
     end
 
     % Run forward
-    [u,uerror] = LB_primal(Gamma_mnus, S, sigma_s, sigma_a, s_vec, BC, 100, 1e-7);
+    [u,uerror] = LB_primal(Gamma_mnus, S, sigma_s, sigma_a, s_vec, BC, 100, 5e-2);
     A = Function_Dose_Calculation(u); A = A(:,mid,mid); A = sum(A,[2,3]);
     save(['Test_forward_width=4p0949_linear_energy_spacing',num2str(i),'.mat'],"A","u","uerror")
 end
