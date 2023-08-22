@@ -37,6 +37,8 @@ while count < n_iter && uerror(count) > min_error
 
     % Calculate particle scattering
     Scatter_Ten = Scattering(u,sigma_s,s_vec)-sigma_a.*u+Energy_loss(u,S);
+    % Scattering = int( sigma_s u ) ds'
+    % Energy_loss= d/dE( S u )
 
     % Calculate particle streaming
     [u] = Streaming(u, Scatter_Ten, s_vec);

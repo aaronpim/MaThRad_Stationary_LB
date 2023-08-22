@@ -33,5 +33,4 @@ else
         output(:,:,:,:,E) = output(:,:,:,:,E) + S(E)*(u(:,:,:,:,E+1) - u(:,:,:,:,E))./(Energy_vec(E+1)-Energy_vec(E));
     end
 end
-1+1;
 end

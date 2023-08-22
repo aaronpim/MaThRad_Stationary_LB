@@ -1,5 +1,5 @@
 function [u,uerror] = LB_dual(Gamma_plus, S, sigma_s, sigma_a, s_vec, data, n_iter)
-%% This code computes a numerical solution to the Boltzmann-CSD equation.
+%% This code computes a numerical solution to the dual of the Boltzmann-CSD equation.
 %##########################################################################
 % Inputs
 %   sigma_s     An [N,N,N,26,26,En] double tensor that represents the 
@@ -36,19 +36,19 @@ while count < n_iter
     count = count +1;   uold = u;
 
     % Calculate particle scattering
-    Scatter_Ten = Scattering(u,sigma_s,s_vec)-sigma_a.*u+Energy_loss(u,S);
+    Scatter_Ten = Scattering(u,sigma_s,s_vec)-sigma_a.*u-Energy_loss(u,S,true)-data;
+    % Scattering = int( sigma_s u ) ds 
+    % Energy_loss= S du/dE
 
     % Calculate particle streaming
-    [u] = Streaming(u, Scatter_Ten, s_vec);
+    [u] = Streaming(u, Scatter_Ten, -s_vec);
     
     % Enforce the boundary conditions
-    u(Gamma_plus) = BC(Gamma_plus);  
+    u(Gamma_plus) = 0;  
+    u(:,:,:,:,end)=0;
 
     % Remove any points of negative flux.
-    u(u<0)=0;
-    
-    % Remove any particles of zero energy.
-    u(:,:,:,:,1)=0;
+    u(u<0)=0; 
 
     % Normalise
     u = u./sum(Function_Dose_Calculation(u),"all");
